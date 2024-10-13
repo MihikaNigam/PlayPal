@@ -45,3 +45,12 @@ h2,
 h3 {
   color: var(--color-accent);
 }
+
+svg.icon {
+  display: inline;
+  height: 2em;
+  width: 2em;
+  vertical-align: top;
+  fill: var(--color-accent);
+}
+
