@@ -1,25 +1,3 @@
-/* body {
-  background-color: #121212;
-  color: #e0e0e0;
-  font-family: Arial, sans-serif;
-}
-header {
-  background-color: #1e1e1e;
-  color: #ffffff;
-  padding: 20px;
-}
-a {
-  color: #bb86fc;
-}
-a:hover {
-  color: #ffffff;
-}
-h1,
-h2,
-h3 {
-  color: #bb86fc;
-} */
-
 body {
     background-color: var(--color-background-page);
     color: var(--color-text);
@@ -30,7 +8,8 @@ body {
 header {
     background-color: var(--color-background-header);
     color: var(--color-text-inverted);
-}
+    padding-left: 10px;
+  }
 
 a {
     color: var(--color-link);
@@ -48,9 +27,25 @@ h3 {
 
 svg.icon {
   display: inline;
-  height: 2em;
+  height: 2.6em;
   width: 2em;
   vertical-align: top;
-  fill: var(--color-accent);
+  fill: var(--color-text-inverted);
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns:repeat(2, 1fr);
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: space-evenly;
+}
