@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/styles/page.css" />
+    <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,35 +18,59 @@
       <p>Connect with gamers</p>
     </header>
 
-    <section>
-      <h2>Games</h2>
-      <ul>
-        <h3>
-          <svg class="icon">
-            <use href="/icons/controller.svg#icon-globe-roller" />
-          </svg>
-          <a href="game/apex.html">Apex Legends Lobbies</a>
-        </h3>
-        <li><a href="teams/lobby.html">LMG Abusers</a></li>
-        <li><a href="teams/lobby.html">Olympus Enjoyers</a></li>
-        <span></span>
-        <h3>
-          <svg class="icon">
-            <use href="/icons/controller.svg#icon-globe-roller" />
-          </svg>
-          <a href="game/overwatch.html">Overwatch Lobbies</a>
-        </h3>
-        <li><a href="teams/lobby.html">Goat Mercy</a></li>
-      </ul>
-    </section>
+    <section class="grid-container">
+      <div class="flex-container">
+        <div>
+          <h2>Games</h2>
+          <h3>
+            <svg class="icon">
+              <use href="/icons/controller.svg#icon-globe-roller" />
+            </svg>
+            <a href="game/apex.html">Apex Legends Lobbies</a>
+          </h3>
+          <div class="image-container">
+            <img
+              src="https://shared.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg?t=1727104892"
+              alt="Apex Image"
+            />
+          </div>
+          <ul>
+            <li><a href="teams/lobby.html">LMG Abusers</a></li>
+            <li><a href="teams/lobby.html">Olympus Enjoyers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>
+            <svg class="icon">
+              <use href="/icons/controller.svg#icon-globe-roller" />
+            </svg>
+            <a href="game/overwatch.html">Overwatch Lobbies</a>
+          </h3>
+          <div class="image-container">
+            <img
+              src="https://i.ytimg.com/vi/dZl1yGUetjI/hqdefault.jpg"
+              alt="Apex Image"
+            />
+          </div>
+          <ul>
+            <li><a href="teams/lobby.html">Goat Mercy</a></li>
+          </ul>
+        </div>
+      </div>
 
-    <section>
-      <h2>Gamers</h2>
-      <ul>
-        <li><a href="gamer/profile.html">Person 1</a></li>
-        <li><a href="gamer/profile.html">Person 2</a></li>
-        <li><a href="gamer/profile.html">Person 3</a></li>
-      </ul>
+      <div class="flex-container">
+        <h2>Gamers</h2>
+        <ul>
+          <li>
+            <!-- <svg class="icon">
+              <use href="/icons/controller.svg#icon-bald-gamer" />
+            </svg> -->
+            <a href="gamer/profile.html">Person 1</a>
+          </li>
+          <li><a href="gamer/profile.html">Person 2</a></li>
+          <li><a href="gamer/profile.html">Person 3</a></li>
+        </ul>
+      </div>
     </section>
   </body>
 </html>
