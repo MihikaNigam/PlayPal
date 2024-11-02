@@ -17,3 +17,9 @@
     --spacing-medium: 16px;
     --spacing-large: 32px;
 }
+
+body.dark-mode {
+    --color-background-page: rgb(240, 240, 223); 
+    --color-text: rgb(18, 18, 18); 
+    --color-background-header: var(--color-accent); 
+  }
