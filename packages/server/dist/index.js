@@ -22,6 +22,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
+var import_game_svc = require("./services/game-svc");
+var import_game = require("./pages/game");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
@@ -32,3 +34,12 @@ app.get("/hello", (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+app.get(
+  "/games/:gameName",
+  (req, res) => {
+    const { gameName } = req.params;
+    const data = (0, import_game_svc.getGame)(gameName);
+    const page = new import_game.GamePage(data);
+    res.set("Content-Type", "text/html").send(page.render());
+  }
+);

@@ -27,7 +27,7 @@ const games = {
   }
 };
 
-export function getGame(_: string): Game | undefined {
+export function getGame(_: string){
 
   return games["apex_legends"];
 }
