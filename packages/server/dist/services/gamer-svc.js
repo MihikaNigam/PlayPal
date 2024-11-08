@@ -18,15 +18,30 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var gamer_svc_exports = {};
 __export(gamer_svc_exports, {
-  gamers: () => gamers
+  default: () => gamer_svc_default
 });
 module.exports = __toCommonJS(gamer_svc_exports);
-const gamers = [
-  { name: "Person 1", profileLink: "gamer/profile.html", recentlyPlayedGames: [] },
-  { name: "Person 2", profileLink: "gamer/profile.html", recentlyPlayedGames: [] },
-  { name: "Person 3", profileLink: "gamer/profile.html", recentlyPlayedGames: [] }
-];
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  gamers
-});
+var import_mongoose = require("mongoose");
+const GamerSchema = new import_mongoose.Schema(
+  {
+    userId: { type: String, required: true, trim: true, unique: true },
+    name: { type: String, required: true, trim: true },
+    games: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Game", default: [] }],
+    teams: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Lobby", default: [] }],
+    avatar: { type: String, trim: true },
+    email: { type: String, trim: true },
+    bio: { type: String, trim: true },
+    lastOnline: { type: Date }
+  },
+  { collection: "pp_gamers" }
+);
+const GamerModel = (0, import_mongoose.model)("Gamer", GamerSchema);
+function index() {
+  return GamerModel.find();
+}
+function get(userId) {
+  return GamerModel.find({ userId }).then((list) => list[0]).catch((err) => {
+    throw `${userId} Not Found`;
+  });
+}
+var gamer_svc_default = { index, get };

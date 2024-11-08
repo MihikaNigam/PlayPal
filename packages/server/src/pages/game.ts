@@ -1,46 +1,42 @@
 import { css, html } from "@calpoly/mustang/server";
-import { Game, Gamer } from "../models";
+import { Game } from "../models";
 import renderPage from "./renderPage";
 
 export class GamePage {
-    data: Game;
-    constructor(data: Game) {
-        this.data = data;
-    }
-    render() {
-        return renderPage({
-            body: this.renderBody(),
-            stylesheets: ["/styles/destination.css"],
-            styles: [
-                css`main.page {
+  data: Game;
+  constructor(data: Game) {
+    this.data = data;
+  }
+  render() {
+    return renderPage({
+      body: this.renderBody(),
+      stylesheets: ["/styles/destination.css"],
+      styles: [
+        css`main.page {
             --page-grids: 8;
             @media screen and (max-width: 48rem) {
             --page-grids: 6;
             }
             }`
-            ],
-            scripts: [
-                `import { define } from "@calpoly/mustang";
+      ],
+      scripts: [
+        `import { define } from "@calpoly/mustang";
             import { GameInstanceElement } from "/scripts/game_instance.js";
             define({
                 "game-instance": GameInstanceElement
             });`
-            ]
-        });
-    }
-    renderBody() {
-        const {
-            title,
-            imageUrl,
-            genre,
-            releaseDate,
-            activePlayers,
-            lobbies,
-        } = this.data;
+      ]
+    });
+  }
+  renderBody() {
+    const {
+      title,
+      imageUrl,
+    } = this.data;
 
 
 
-        return html`
+    return html`
     <section class="grid-container">
       <div class="flex-container">
         <div>
@@ -57,5 +53,5 @@ export class GamePage {
       </div>
     </section>
     `
-    }
+  }
 }

@@ -1,9 +1,41 @@
-// src/services/game-svc.ts
-import { Game } from "../models";
-import {gamers} from "./gamer-svc";
+import { Schema, model } from "mongoose";
+import { Game } from "../models/game";
 
+const GameSchema = new Schema<Game>(
+  {
+    gameId: { type: String, required: true, trim: true, unique: true },
+    title: { type: String, required: true, trim: true },
+    imageUrl: { type: String, trim: true },
+    genre: { type: String, trim: true },
+    releaseDate: { type: Date },
+    publisher: { type: String, trim: true },
+    description: { type: String, trim: true },
+  },
+  { collection: "pp_games" }
+);
 
-// Mock data as our in-memory "database"
+const GameModel = model<Game>("Game", GameSchema);
+
+function index(): Promise<Game[]> {
+  return GameModel.find();
+}
+
+function get(gameId: String): Promise<Game> {
+  return GameModel.findOne({ gameId })
+    .then(game => {
+      if (!game) {
+        throw new Error(`${gameId} Not Found`);
+      }
+      return game;
+    })
+    .catch((err) => {
+      throw `${gameId} Not Found`;
+    });
+}
+
+export default { index, get };
+
+/*
 const games = {
   apex_legends: {
     title: "Apex Legends",
@@ -28,6 +60,6 @@ const games = {
 };
 
 export function getGame(_: string){
-
   return games["apex_legends"];
 }
+*/

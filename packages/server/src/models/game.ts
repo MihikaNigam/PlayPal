@@ -1,15 +1,12 @@
-import { Gamer } from "./gamer";
+import type { Lobby } from "./lobby";
 
 export interface Game {
-    title: string;
-    imageUrl: string;
-    genre: string;
-    releaseDate: Date;
-    activePlayers: Array<Gamer>;
-    lobbies: Array<Lobby>;
+    gameId: string,
+    title: string,
+    imageUrl: string,
+    genre: string,
+    releaseDate: Date,
+    publisher?: string;
+    description?: string;
   }
   
-  export interface Lobby {
-    name: string;
-    link: string;
-  }
