@@ -1,11 +1,11 @@
 import type { Game } from "./game";
-import type { Lobby } from "../models/lobby";
+import type { Lobby } from "./lobby";
 
 export interface Gamer {
-  userId: string,
+  //userId: string,
   name: string;
-  games?: Array<Game>; // List of games
-  teams?: Array<Lobby>; //links of teams user is a part of
+  games: Game[]; // List of games
+  teams: Lobby[]; //links of teams user is a part of
   avatar: string,
   email?: string;
   bio?: string;

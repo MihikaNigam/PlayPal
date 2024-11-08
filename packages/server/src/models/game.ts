@@ -1,7 +1,7 @@
 import type { Lobby } from "./lobby";
 
 export interface Game {
-    gameId: string,
+    //gameId: string,
     title: string,
     imageUrl: string,
     genre: string,

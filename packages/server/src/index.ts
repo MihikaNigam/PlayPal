@@ -4,6 +4,10 @@ import { connect } from "./services/mongo";
 import { GamePage } from "./pages/game";
 import Games from "./services/game-svc";
 
+import games from "./routes/games"
+import gamers from "./routes/gamers"
+import lobbies from "./routes/lobbies"
+
 const app = express();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
@@ -11,6 +15,14 @@ const staticDir = process.env.STATIC || "public";
 connect("PlayPal");
 
 app.use(express.static(staticDir));
+
+//middleware
+app.use(express.json());
+
+//apis
+app.use("/api/games", games);
+app.use("/api/gamers", gamers);
+app.use("/api/lobbies", lobbies);
 
 app.get("/hello", (req: Request, res: Response) => {
   res.send("Hello, World");

@@ -24,7 +24,7 @@ module.exports = __toCommonJS(gamer_svc_exports);
 var import_mongoose = require("mongoose");
 const GamerSchema = new import_mongoose.Schema(
   {
-    userId: { type: String, required: true, trim: true, unique: true },
+    //userId: { type: String, required: true, trim: true, unique: true },
     name: { type: String, required: true, trim: true },
     games: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Game", default: [] }],
     teams: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Lobby", default: [] }],
@@ -40,8 +40,33 @@ function index() {
   return GamerModel.find();
 }
 function get(userId) {
-  return GamerModel.find({ userId }).then((list) => list[0]).catch((err) => {
+  return GamerModel.findById(userId).populate("games").then((gamer) => {
+    if (!gamer) {
+      throw new Error(`${userId} Not Found`);
+    }
+    return gamer;
+  }).catch((err) => {
+    console.log("error in gamer get: ", err);
     throw `${userId} Not Found`;
   });
 }
-var gamer_svc_default = { index, get };
+function create(json) {
+  const t = new GamerModel(json);
+  return t.save();
+}
+function update(gamerId, gamer) {
+  return GamerModel.findByIdAndUpdate(gamerId, gamer, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${gamerId} not updated`;
+    else return updated;
+  });
+}
+function remove(gamerId) {
+  return GamerModel.findByIdAndDelete(gamerId).then(
+    (deleted) => {
+      if (!deleted) throw `${gamerId} not deleted`;
+    }
+  );
+}
+var gamer_svc_default = { index, get, create, update, remove };

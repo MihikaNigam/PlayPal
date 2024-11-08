@@ -25,11 +25,18 @@ var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
 var import_game = require("./pages/game");
 var import_game_svc = __toESM(require("./services/game-svc"));
+var import_games = __toESM(require("./routes/games"));
+var import_gamers = __toESM(require("./routes/gamers"));
+var import_lobbies = __toESM(require("./routes/lobbies"));
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 (0, import_mongo.connect)("PlayPal");
 app.use(import_express.default.static(staticDir));
+app.use(import_express.default.json());
+app.use("/api/games", import_games.default);
+app.use("/api/gamers", import_gamers.default);
+app.use("/api/lobbies", import_lobbies.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });

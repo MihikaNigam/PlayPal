@@ -24,7 +24,7 @@ module.exports = __toCommonJS(game_svc_exports);
 var import_mongoose = require("mongoose");
 const GameSchema = new import_mongoose.Schema(
   {
-    gameId: { type: String, required: true, trim: true, unique: true },
+    //gameId: { type: String, required: true, trim: true, unique: true },
     title: { type: String, required: true, trim: true },
     imageUrl: { type: String, trim: true },
     genre: { type: String, trim: true },
@@ -39,14 +39,33 @@ function index() {
   return GameModel.find();
 }
 function get(gameId) {
-  console.log("reached? ", gameId);
-  return GameModel.findOne({ gameId }).then((game) => {
+  return GameModel.findById(gameId).then((game) => {
     if (!game) {
       throw new Error(`${gameId} Not Found`);
     }
     return game;
   }).catch((err) => {
+    console.log("errorr: ", err);
     throw `${gameId} Not Found`;
   });
 }
-var game_svc_default = { index, get };
+function create(json) {
+  const t = new GameModel(json);
+  return t.save();
+}
+function update(gameId, game) {
+  return GameModel.findByIdAndUpdate(gameId, game, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${gameId} not updated`;
+    else return updated;
+  });
+}
+function remove(gameId) {
+  return GameModel.findByIdAndDelete(gameId).then(
+    (deleted) => {
+      if (!deleted) throw `${gameId} not deleted`;
+    }
+  );
+}
+var game_svc_default = { index, get, create, update, remove };
