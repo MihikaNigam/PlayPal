@@ -22,7 +22,7 @@ function index(): Promise<Gamer[]> {
 }
 
 function get(userId: String): Promise<Gamer> {
-  return GamerModel.findById(userId).populate("games")
+  return GamerModel.findById(userId).populate("games teams")
     .then((gamer) => {
       if (!gamer) {
         throw new Error(`${userId} Not Found`);

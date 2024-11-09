@@ -21,9 +21,13 @@
     <script type="module">
       import { define } from "@calpoly/mustang";
       import { GameInstanceElement } from "/scripts/game_instance.js";
+      import { GamerProfileElement } from "/scripts/gamer_profile.js";
+      import { HeaderElement } from "/scripts/pp_header.js";
       define({
         "game-instance": GameInstanceElement,
+        "pp-header": HeaderElement,
       });
+      HeaderElement.initializeOnce();
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -48,20 +52,20 @@
     </script>
   </head>
   <body>
-    <header>
+    <!-- <header>
       <h1>PlayPal</h1>
       <p>Connect with gamers</p>
       <label id="dark-mode-label">
         <input type="checkbox" autocomplete="off" />
         Dark mode
       </label>
-    </header>
-
+    </header> -->
+    <pp-header></pp-header>
     <section class="grid-container">
       <div class="flex-container">
         <div>
           <h2>Games</h2>
-          <game-instance>
+          <!-- <game-instance>
             <a slot="game-title" href="game/apex.html">Apex Legends</a>
             <img
               slot="game-image"
@@ -72,20 +76,29 @@
             <a slot="game-lobby-link-2" href="teams/lobby.html"
               >Olympus Enjoyers</a
             >
-          </game-instance>
-        </div>
-        <div>
-          <game-instance>
-            <a slot="game-title" href="game/overwatch.html"
-              >Overwatch Lobbies</a
-            >
-            <img
-              slot="game-image"
-              src="https://i.ytimg.com/vi/dZl1yGUetjI/hqdefault.jpg"
-              alt="Overwatch Image"
-            />
-            >
-          </game-instance>
+          </game-instance> -->
+          <a href="games/672db68d8232f52a313ff9f1"
+            ><game-instance
+              src="/api/games/672db68d8232f52a313ff9f1"
+            ></game-instance
+          ></a>
+          <div>
+            <game-instance>
+              <a slot="game-title" href="game/overwatch.html"
+                >Overwatch Lobbies</a
+              >
+              <img
+                slot="game-image"
+                src="https://i.ytimg.com/vi/dZl1yGUetjI/hqdefault.jpg"
+                alt="Overwatch Image"
+              />
+              >
+            </game-instance>
+          </div>
+          <a href="games/672daf34fdc12930d0677e8c">
+            <game-instance src="/api/games/672daf34fdc12930d0677e8c">
+            </game-instance
+          ></a>
         </div>
       </div>
 
@@ -96,9 +109,9 @@
             <!-- <svg class="icon">
               <use href="/icons/controller.svg#icon-bald-gamer" />
             </svg> -->
-            <a href="gamer/profile.html">Person 1</a>
+            <a href="gamers/672db9498d0b83141da663a5">Person 1</a>
           </li>
-          <li><a href="gamer/profile.html">Person 2</a></li>
+          <li><a href="gamer/672db9498d0b83141da663a5">Person 2</a></li>
           <li><a href="gamer/profile.html">Person 3</a></li>
         </ul>
       </div>
