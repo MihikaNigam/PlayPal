@@ -41,13 +41,13 @@ export class GamePage {
       <div class="flex-container">
         <div>
           <h2>Games</h2>
-          <game-instance>
-            <a slot="game-title" href="game/apex.html">${title}</a>
-            <img
-              slot="game-image"
-              src=${imageUrl}
-              alt="Apex Image"
-            />
+          <game-instance href="games/672db68d8232f52a313ff9f1" src= "/api/games/672db68d8232f52a313ff9f1">
+            // <a slot="game-title" href="game/apex.html">${title}</a>
+            // <img
+            //   slot="game-image"
+            //   src=${imageUrl}
+            //   alt="Apex Image"
+            // />
           </game-instance>
         </div>
       </div>

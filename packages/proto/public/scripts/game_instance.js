@@ -2,6 +2,9 @@ import { css, html, shadow } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class GameInstanceElement extends HTMLElement {
+  get src() {
+    return this.getAttribute("src");
+  }
   static template = html`
     <template>
       <div>
@@ -43,5 +46,42 @@ export class GameInstanceElement extends HTMLElement {
     shadow(this)
       .template(GameInstanceElement.template)
       .styles(reset.styles, GameInstanceElement.styles);
+  }
+
+  connectedCallback() {
+    if (this.src) this.hydrate(this.src);
+  }
+
+  hydrate(url) {
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+        return res.json();
+      })
+      .then((json) => this.renderSlots(json))
+      .catch((error) => console.log("Error fetching data:", error));
+  }
+
+  renderSlots(data) {
+    const slotMap = {
+      "game-title": data.title,
+      "game-image": html`<img
+        slot="game-image"
+        src="${data.imageUrl}"
+        alt="${data.title}"
+      />`
+    };
+    this.replaceChildren();
+    Object.keys(slotMap).forEach((slotName) => {
+      const slotContent = slotMap[slotName];
+      const element = document.createElement("span");
+      element.setAttribute("slot", slotName);
+      if (typeof slotContent === "string") {
+        element.textContent = slotContent;
+      } else {
+        element.appendChild(slotContent); 
+      }
+      this.appendChild(element);
+    });
   }
 }

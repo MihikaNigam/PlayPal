@@ -24,7 +24,11 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
 var import_game = require("./pages/game");
+var import_gamer = require("./pages/gamer");
+var import_lobby = require("./pages/lobby");
 var import_game_svc = __toESM(require("./services/game-svc"));
+var import_gamer_svc = __toESM(require("./services/gamer-svc"));
+var import_lobby_svc = __toESM(require("./services/lobby-svc"));
 var import_games = __toESM(require("./routes/games"));
 var import_gamers = __toESM(require("./routes/gamers"));
 var import_lobbies = __toESM(require("./routes/lobbies"));
@@ -37,11 +41,11 @@ app.use(import_express.default.json());
 app.use("/api/games", import_games.default);
 app.use("/api/gamers", import_gamers.default);
 app.use("/api/lobbies", import_lobbies.default);
-app.get("/hello", (req, res) => {
-  res.send("Hello, World");
-});
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+app.get("/hello", (req, res) => {
+  res.send("Hello, World");
 });
 app.get(
   "/games/:gameid",
@@ -55,6 +59,38 @@ app.get(
       }
     }).catch((err) => {
       console.error("Error fetching game:", err);
+      res.status(500).send("Internal Server Error");
+    });
+  }
+);
+app.get(
+  "/gamers/:userid",
+  (req, res) => {
+    const { userid } = req.params;
+    import_gamer_svc.default.get(userid).then((data) => {
+      if (data) {
+        res.set("Content-Type", "text/html").send(new import_gamer.GamerPage(data).render());
+      } else {
+        res.status(404).send("Gamer not found");
+      }
+    }).catch((err) => {
+      console.error("Error fetching gamers:", err);
+      res.status(500).send("Internal Server Error");
+    });
+  }
+);
+app.get(
+  "/lobbies/:teamid",
+  (req, res) => {
+    const { teamid } = req.params;
+    import_lobby_svc.default.get(teamid).then((data) => {
+      if (data) {
+        res.set("Content-Type", "text/html").send(new import_lobby.LobbyPage(data).render());
+      } else {
+        res.status(404).send("Lobby not found");
+      }
+    }).catch((err) => {
+      console.error("Error fetching lobby:", err);
       res.status(500).send("Internal Server Error");
     });
   }
