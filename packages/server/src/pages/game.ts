@@ -30,24 +30,19 @@ export class GamePage {
   }
   renderBody() {
     const {
-      title,
-      imageUrl,
+      _id: gameId
     } = this.data;
 
-
+    const endpoint = `/games/${gameId}`;
+    const apiEndpoint = `/api${endpoint}`;
 
     return html`
+    <pp-header></pp-header>
     <section class="grid-container">
       <div class="flex-container">
         <div>
           <h2>Games</h2>
-          <game-instance href="games/672db68d8232f52a313ff9f1" src= "/api/games/672db68d8232f52a313ff9f1">
-            // <a slot="game-title" href="game/apex.html">${title}</a>
-            // <img
-            //   slot="game-image"
-            //   src=${imageUrl}
-            //   alt="Apex Image"
-            // />
+          <game-instance href="${endpoint}" src= "${apiEndpoint}">
           </game-instance>
         </div>
       </div>

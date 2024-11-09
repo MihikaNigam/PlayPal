@@ -40,7 +40,7 @@ function index() {
   return GamerModel.find();
 }
 function get(userId) {
-  return GamerModel.findById(userId).populate("games").then((gamer) => {
+  return GamerModel.findById(userId).populate("games teams").then((gamer) => {
     if (!gamer) {
       throw new Error(`${userId} Not Found`);
     }

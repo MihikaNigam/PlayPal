@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
 
-import { GamePage } from "./pages/game";
-import { GamerPage } from "./pages/gamer";
-import { LobbyPage } from "./pages/lobby";
+import { GamePage, GamerPage } from "./pages/index";
 
 import Games from "./services/game-svc";
 import Gamers from "./services/gamer-svc";
@@ -73,6 +71,7 @@ app.get(
   }
 );
 
+/*
 app.get(
   "/lobbies/:teamid",
   (req: Request, res: Response) => {
@@ -89,3 +88,4 @@ app.get(
     });
   }
 );
+*/

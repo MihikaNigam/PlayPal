@@ -21,7 +21,7 @@ function index(): Promise<Game[]> {
 }
 
 function get(gameId: String): Promise<Game> {
-  return GameModel.findById(gameId)//.populate("games")
+  return GameModel.findById(gameId)
     .then((game) => {
       if (!game) {
         throw new Error(`${gameId} Not Found`);
