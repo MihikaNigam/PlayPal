@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
 
-import { GamePage, GamerPage } from "./pages/index";
+import { GamePage, GamerPage, LoginPage } from "./pages/index";
 
 import Games from "./services/game-svc";
 import Gamers from "./services/gamer-svc";
@@ -10,6 +10,7 @@ import Lobbies from "./services/lobby-svc";
 import games from "./routes/games"
 import gamers from "./routes/gamers"
 import lobbies from "./routes/lobbies"
+import auth, { authenticateUser } from "./routes/auth";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,9 +24,10 @@ app.use(express.static(staticDir));
 app.use(express.json());
 
 //apis
-app.use("/api/games", games);
-app.use("/api/gamers", gamers);
-app.use("/api/lobbies", lobbies);
+app.use("/api/games", authenticateUser, games);
+app.use("/api/gamers", authenticateUser, gamers);
+app.use("/api/lobbies", authenticateUser, lobbies);
+app.use("/auth", auth);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
@@ -70,6 +72,16 @@ app.get(
     });
   }
 );
+
+app.get("/login", (req: Request, res: Response) => {
+  const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+
+app.get("/register", (req: Request, res: Response) => {
+  const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
 
 /*
 app.get(

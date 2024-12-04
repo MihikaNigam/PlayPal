@@ -10,21 +10,24 @@ export class GamerPage {
     render() {
         return renderPage({
             body: this.renderBody(),
-            //stylesheets: ["/styles/destination.css"],
             styles: [
-                css`main.page {
-            --page-grids: 8;
-            @media screen and (max-width: 48rem) {
-            --page-grids: 6;
-            }
-            }`
+                css`
+                    main.page {
+                        --page-grids: 8;
+                        @media screen and (max-width: 48rem) {
+                        --page-grids: 6;
+                        }
+                    }
+                `
             ],
             scripts: [
-                `import { define } from "@calpoly/mustang";
-            import { GamerProfileElement } from "/scripts/gamer_profile.js";
-            define({
-                "gamer-profile": GamerProfileElement
-            });`
+                `import { define, Auth } from "@calpoly/mustang";
+                import { GamerProfileElement } from "/scripts/gamer_profile.js";
+                
+                define({
+                    "gamer-profile": GamerProfileElement,
+                    "mu-auth": Auth.Provider,
+                });`
             ]
         });
     }
@@ -37,8 +40,10 @@ export class GamerPage {
 
 
         return html`
-        <pp-header></pp-header>
-        <gamer-profile src= "${apiEndpoint}"></gamer-profile>
+        <mu-auth provides="playpal:auth">
+            <pp-header></pp-header>
+            <gamer-profile src= "${apiEndpoint}"></gamer-profile>
+        </mu-auth>
     `
     }
 }

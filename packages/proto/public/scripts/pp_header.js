@@ -1,59 +1,145 @@
-import { css, define, html, shadow, Events } from "@calpoly/mustang";
+import {
+  css,
+  define,
+  html,
+  shadow,
+  Dropdown,
+  Events,
+  Observer,
+} from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
+import headings from "./styles/headings.css.js";
 
 export class HeaderElement extends HTMLElement {
-  get src() {
-    return this.getAttribute("src");
-  }
-  static template = html`
-    <template>
-      <header>
-        <h1>PlayPal</h1>
-        <p>Connect with gamers</p>
-        <label id="dark-mode-label">
-          <input type="checkbox" class="dark-mode-switch" autocomplete="off" />
-          Dark Mode
-        </label>
-      </header>
-    </template>
-  `;
+  static uses = define({
+    "mu-dropdown": Dropdown.Element,
+  });
+
+  static template = html` <template>
+    <header>
+      <h1>PlayPal</h1>
+      <nav>
+        <p><slot> Connect with fellow gamers! </slot></p>
+        <mu-dropdown>
+          <a slot="actuator">
+            Hello,
+            <span id="userid"></span>
+          </a>
+          <menu>
+            <li>
+              <label class="dark-mode-switch">
+                <input type="checkbox" />
+                Dark Mode
+              </label>
+            </li>
+            <li class="when-signed-in">
+              <a id="signout">Sign Out</a>
+            </li>
+            <li class="when-signed-out">
+              <a href="/login">Sign In</a>
+            </li>
+          </menu>
+        </mu-dropdown>
+      </nav>
+    </header>
+  </template>`;
 
   static styles = css`
+    :host {
+      display: contents;
+    }
     header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: bottom;
+      justify-content: space-between;
+      padding: var(--size-spacing-medium);
       background-color: var(--color-background-header);
       color: var(--color-text-inverted);
       padding-left: 10px;
+      padding-right: 10px;
+    }
+    header ~ * {
+      margin: var(--size-spacing-medium);
+    }
+    header p {
+      --color-link: var(--color-link-inverted);
+    }
+    nav {
+      display: flex;
+      flex-direction: column;
+      flex-basis: max-content;
+      align-items: end;
+    }
+    a[slot="actuator"] {
+      color: var(--color-link-inverted);
+      cursor: pointer;
+    }
+    #userid:empty::before {
+      content: "gamer";
+    }
+    menu a {
+      color: var(--color-link);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    a:has(#userid:empty) ~ menu > .when-signed-in,
+    a:has(#userid:not(:empty)) ~ menu > .when-signed-out {
+      display: none;
     }
   `;
+
+  get userid() {
+    return this._userid.textContent;
+  }
+
+  set userid(id) {
+    if (id === "anonymous") {
+      this._userid.textContent = "";
+    } else {
+      this._userid.textContent = id;
+    }
+  }
 
   constructor() {
     super();
     shadow(this)
       .template(HeaderElement.template)
-      .styles(reset.styles, HeaderElement.styles);
+      .styles(reset.styles, headings.styles, HeaderElement.styles);
 
     const dm = this.shadowRoot.querySelector(".dark-mode-switch");
 
-    if (dm) {
-      dm.addEventListener("change", (event) =>
-        Events.relay(event, "dark-mode", {
-          checked: event.target.checked,
-        })
-      );
-    }
+    dm.addEventListener("click", (event) =>
+      Events.relay(event, "dark-mode", {
+        checked: event.target.checked,
+      })
+    );
+
+    this._userid = this.shadowRoot.querySelector("#userid");
+    this._signout = this.shadowRoot.querySelector("#signout");
+
+    this._signout.addEventListener("click", (event) =>
+      Events.relay(event, "auth:message", ["auth/signout"])
+    );
   }
 
+  _authObserver = new Observer(this, "playpal:auth");
+
   connectedCallback() {
-    if (this.src) this.hydrate(this.src);
+    this._authObserver.observe(({ user }) => {
+      if (user && user.username !== this.userid) {
+        this.userid = user.username;
+      }
+    });
   }
 
   static initializeOnce() {
-    function toggleDarkMode(checked) {
-      document.body.classList.toggle("dark-mode", checked);
+    function toggleDarkMode(page, checked) {
+      page.classList.toggle("dark-mode", checked);
     }
 
     document.body.addEventListener("dark-mode", (event) =>
-      toggleDarkMode(event.detail.checked)
+      toggleDarkMode(event.currentTarget, event.detail.checked)
     );
   }
 }
