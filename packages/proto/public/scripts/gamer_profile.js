@@ -1,11 +1,7 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class GamerProfileElement extends HTMLElement {
-  get src() {
-    return this.getAttribute("src");
-  }
-
   static template = html`
     <template>
       <h2>Gamer Profile</h2>
@@ -111,19 +107,31 @@ export class GamerProfileElement extends HTMLElement {
       .styles(reset.styles, GamerProfileElement.styles);
   }
 
-  static observedAttributes = ["src"];
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === "src" && oldValue !== newValue && newValue)
-      this.hydrate(newValue);
+  get src() {
+    return this.getAttribute("src");
   }
 
-  // connectedCallback() {
-  //   if (this.src) this.hydrate(this.src);
-  // }
+  get authorization() {
+    if (this._user && this._user.authenticated)
+      return {
+        Authorization: `Bearer ${this._user.token}`,
+      };
+    else return {};
+  }
+
+  _authObserver = new Observer(this, "playpal:auth");
+  static observedAttributes = ["src"];
+
+  connectedCallback() {
+    this._authObserver.observe(({ user }) => {
+      this._user = user;
+      if (this.src) this.hydrate(this.src);
+    });
+  }
 
   hydrate(url) {
-    fetch(url)
+    const headers = this.authorization || {};
+    fetch(url, { headers: headers })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json();

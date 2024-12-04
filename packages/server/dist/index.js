@@ -23,24 +23,23 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
-var import_game = require("./pages/game");
-var import_gamer = require("./pages/gamer");
-var import_lobby = require("./pages/lobby");
+var import_pages = require("./pages/index");
 var import_game_svc = __toESM(require("./services/game-svc"));
 var import_gamer_svc = __toESM(require("./services/gamer-svc"));
-var import_lobby_svc = __toESM(require("./services/lobby-svc"));
 var import_games = __toESM(require("./routes/games"));
 var import_gamers = __toESM(require("./routes/gamers"));
 var import_lobbies = __toESM(require("./routes/lobbies"));
+var import_auth = __toESM(require("./routes/auth"));
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 (0, import_mongo.connect)("PlayPal");
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
-app.use("/api/games", import_games.default);
-app.use("/api/gamers", import_gamers.default);
-app.use("/api/lobbies", import_lobbies.default);
+app.use("/api/games", import_auth.authenticateUser, import_games.default);
+app.use("/api/gamers", import_auth.authenticateUser, import_gamers.default);
+app.use("/api/lobbies", import_auth.authenticateUser, import_lobbies.default);
+app.use("/auth", import_auth.default);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
@@ -53,7 +52,7 @@ app.get(
     const { gameid } = req.params;
     import_game_svc.default.get(gameid).then((data) => {
       if (data) {
-        res.set("Content-Type", "text/html").send(new import_game.GamePage(data).render());
+        res.set("Content-Type", "text/html").send(new import_pages.GamePage(data).render());
       } else {
         res.status(404).send("Game not found");
       }
@@ -69,7 +68,7 @@ app.get(
     const { userid } = req.params;
     import_gamer_svc.default.get(userid).then((data) => {
       if (data) {
-        res.set("Content-Type", "text/html").send(new import_gamer.GamerPage(data).render());
+        res.set("Content-Type", "text/html").send(new import_pages.GamerPage(data).render());
       } else {
         res.status(404).send("Gamer not found");
       }
@@ -79,19 +78,11 @@ app.get(
     });
   }
 );
-app.get(
-  "/lobbies/:teamid",
-  (req, res) => {
-    const { teamid } = req.params;
-    import_lobby_svc.default.get(teamid).then((data) => {
-      if (data) {
-        res.set("Content-Type", "text/html").send(new import_lobby.LobbyPage(data).render());
-      } else {
-        res.status(404).send("Lobby not found");
-      }
-    }).catch((err) => {
-      console.error("Error fetching lobby:", err);
-      res.status(500).send("Internal Server Error");
-    });
-  }
-);
+app.get("/login", (req, res) => {
+  const page = new import_pages.LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
+app.get("/register", (req, res) => {
+  const page = new import_pages.LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
+});
