@@ -23,12 +23,12 @@ function index(): Promise<Lobby[]> {
 }
 
 function get(teamId: String): Promise<Lobby> {
-  return LobbyModel.findById(teamId)//.populate("games")
-    .then((gamer) => {
-      if (!gamer) {
+  return LobbyModel.findById(teamId) //.populate("games")
+    .then((team) => {
+      if (!team) {
         throw new Error(`${teamId} Not Found`);
       }
-      return gamer;
+      return team;
     })
     .catch((err) => {
       console.log('err in lobby get: ', get)

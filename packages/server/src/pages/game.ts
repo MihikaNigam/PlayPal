@@ -10,6 +10,7 @@ export class GamePage {
   render() {
     return renderPage({
       body: this.renderBody(),
+      stylesheets: ["/styles/token.css", "/styles/page.css", "/styles/game-page.css"],
       styles: [
         css`
           main.page {
@@ -23,17 +24,25 @@ export class GamePage {
       scripts: [
         `import { define, Auth } from "@calpoly/mustang";
          import { GameInstanceElement } from "/scripts/game_instance.js";
+         import { LobbyInstanceElement } from "/scripts/lobby_instance.js";
 
          define({
            "game-instance": GameInstanceElement,
            "mu-auth": Auth.Provider,
+           "lobby-instance": LobbyInstanceElement,
          });`
       ]
     });
   }
   renderBody() {
     const {
-      _id: gameId
+      _id: gameId,
+      title,
+      imageUrl,
+      genre,
+      releaseDate,
+      publisher,
+      description
     } = this.data;
 
     const endpoint = `/games/${gameId}`;
@@ -44,14 +53,65 @@ export class GamePage {
         <pp-header></pp-header>
         <section class="grid-container">
           <div class="flex-container">
-            <div>
-              <h2>Games</h2>
-              <game-instance href="${endpoint}" src="${apiEndpoint}">
-              </game-instance>
-            </div>
+    
+              <h2>About ${title}</h2>
+              <img
+                class="about-image"
+                src="${imageUrl}"
+                alt="Image of ${title}"
+              />
+              <div class="about-details">
+                <div class="game-info">
+                  Genre:
+                  <span>${genre}</span>
+                </div>
+                <div class="game-info">
+                  Release Date:
+                  <span>${new Date(releaseDate).toLocaleDateString()}</span>
+                </div>
+                <div class="game-info">
+                  Publisher:
+                  <span>${publisher}</span>
+                </div>
+                <p>${description}</p>
+              </div>
+          </div>
+          <div class="flex-container">
+              <h3>Active Lobbies</h3>
+              <div class="lobby-list">
+                <a href="/lobbies/672dc18719a2f499b5095584">
+                  <section class ="card">
+                    <lobby-instance src="/api/lobbies/672dc18719a2f499b5095584"></lobby-instance>
+                    <button/>Join<button/>
+                  </section>
+                </a>
+              <div/>
           </div>
         </section>
       </mu-auth>
     `;
   }
+
+  // renderLobbyList() {
+  //   if (this.activeLobbies.length === 0) {
+  //     return html`<p>No active lobbies available.</p>`;
+  //   }
+
+  //   return html`
+  //     <div class="lobby-list">
+  //       ${this.activeLobbies.map(
+  //     (lobby) =>
+  //       html`
+  //         <a href="/lobby/${lobby.id}">
+  //           <section class ="card">
+  //             <img src=
+  //             <lobby-instance src="/api/lobbies/675118708f17413cc4a7342a"></lobby-instance>
+  //             <button/>Join<button/>
+  //           </section>
+  //           </a>
+  //           `
+  //   )}
+  //     </div>
+  //   `;
+  // }
 }
