@@ -1,14 +1,14 @@
 import { css, html, shadow, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
-export class GameInstanceElement extends HTMLElement {
+export class LobbyInstanceElement extends HTMLElement {
   static template = html`
     <template>
       <div>
         <div class="image-container">
-          <slot name="game-image">***Featured Slot***</slot>
+          <slot name="lobby-image">***Featured Slot***</slot>
         </div>
-          <slot name="game-title">Default Game Title</slot>
+          <slot name="lobby-title">Default Lobby Title</slot>
       </div>
     </template>
   `;
@@ -36,8 +36,8 @@ export class GameInstanceElement extends HTMLElement {
   constructor() {
     super();
     shadow(this)
-      .template(GameInstanceElement.template)
-      .styles(reset.styles, GameInstanceElement.styles);
+      .template(LobbyInstanceElement.template)
+      .styles(reset.styles, LobbyInstanceElement.styles);
   }
 
   get src() {
@@ -75,11 +75,11 @@ export class GameInstanceElement extends HTMLElement {
 
   renderSlots(data) {
     const slotMap = {
-      "game-title": data.title,
-      "game-image": html`<img
-        slot="game-image"
-        src="${data.imageUrl}"
-        alt="${data.title}"
+      "lobby-title": data.name,
+      "lobby-image": html`<img
+        slot="lobby-image"
+        src="${"https://img.freepik.com/premium-vector/straw-doll-pixel-art-style_475147-1499.jpg"}"
+        alt="${data.name}"
       />`,
     };
     this.replaceChildren();

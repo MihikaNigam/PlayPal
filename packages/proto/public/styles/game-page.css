@@ -1,0 +1,43 @@
+.about-section {
+  flex-direction: row;
+  gap: var(--spacing-medium);
+  align-items: flex-start;
+  padding: var(--spacing-large);
+  background-color: var(--color-background-page);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-inverted);
+}
+.about-image {
+  flex: 1;
+  max-width: 500px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.about-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  width: 80%;
+}
+.game-info {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-top: var(--spacing-small);
+  font-weight: bold;
+
+}
+p{
+  color: var(--color-accent);
+}
+
+.game-info span {
+  font-weight: normal !important;
+}
+
+.lobby-list{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 3px;
+}
