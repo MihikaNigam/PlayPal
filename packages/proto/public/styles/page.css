@@ -105,7 +105,7 @@ body.dark-mode .card {
 body.dark-mode .card h4 {
   color: var(--color-text-inverted); /* Inverted text color in dark mode */
 }
-
+/* 
 article {
   margin: 10px;
-}
+} */

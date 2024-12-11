@@ -1,15 +1,15 @@
-import { css, html, shadow, Observer } from "@calpoly/mustang";
+import { css, html, shadow, Observer, define } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
+import { GamerInstanceElement } from "./gamer_instance.js";
+import pagecss from "./styles/page.css.js";
 
-export class LobbyInstanceElement extends HTMLElement {
+export class GamerListInstanceElement extends HTMLElement {
+  static uses = define({
+    "gamer-instance": GamerInstanceElement,
+  });
   static template = html`
     <template>
-      <div>
-        <div class="image-container">
-          <slot name="lobby-image">***Featured Slot***</slot>
-        </div>
-          <slot name="lobby-title">Default Lobby Title</slot>
-      </div>
+      <div class="gamer-list"></div>
     </template>
   `;
 
@@ -36,8 +36,8 @@ export class LobbyInstanceElement extends HTMLElement {
   constructor() {
     super();
     shadow(this)
-      .template(LobbyInstanceElement.template)
-      .styles(reset.styles, LobbyInstanceElement.styles);
+      .template(GamerListInstanceElement.template)
+      .styles(reset.styles, GamerListInstanceElement.styles, pagecss.styles);
   }
 
   get src() {
@@ -74,26 +74,26 @@ export class LobbyInstanceElement extends HTMLElement {
   }
 
   renderSlots(data) {
-    const slotMap = {
-      "lobby-title": data.name,
-      "lobby-image": html`<img
-        slot="lobby-image"
-        src="${"https://img.freepik.com/premium-vector/straw-doll-pixel-art-style_475147-1499.jpg"}"
-        alt="${data.imageUrl}"
-      />`,
-      "lobby-status":html`${data.status}`
-    };
-    this.replaceChildren();
-    Object.keys(slotMap).forEach((slotName) => {
-      const slotContent = slotMap[slotName];
-      const element = document.createElement("span");
-      element.setAttribute("slot", slotName);
-      if (typeof slotContent === "string") {
-        element.textContent = slotContent;
-      } else {
-        element.appendChild(slotContent);
-      }
-      this.appendChild(element);
+    const gamerListContainer = this.shadowRoot?.querySelector(".gamer-list");
+    if (!gamerListContainer) return;
+
+    // Clear any existing content
+    gamerListContainer.innerHTML = "";
+
+    if (!data || data.length === 0) {
+      gamerListContainer.innerHTML = `<p>No active gamers available.</p>`;
+      return;
+    }
+
+    data.forEach((gamer) => {
+      const gamerCard = html`
+        <a href="/gamers/${gamer._id}">
+          <section class="card">
+            <gamer-instance src="/api/gamers/${gamer._id}"></gamer-instance>
+          </section>
+        </a>
+      `;
+      gamerListContainer.appendChild(gamerCard);
     });
   }
 }

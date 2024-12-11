@@ -1,14 +1,14 @@
 import { css, html, shadow, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
-export class LobbyInstanceElement extends HTMLElement {
+export class GamerInstanceElement extends HTMLElement {
   static template = html`
     <template>
       <div>
         <div class="image-container">
-          <slot name="lobby-image">***Featured Slot***</slot>
+          <slot name="gamer-image">***Featured Slot***</slot>
         </div>
-          <slot name="lobby-title">Default Lobby Title</slot>
+          <slot name="gamer-title">Default Gamer Title</slot>
       </div>
     </template>
   `;
@@ -36,8 +36,8 @@ export class LobbyInstanceElement extends HTMLElement {
   constructor() {
     super();
     shadow(this)
-      .template(LobbyInstanceElement.template)
-      .styles(reset.styles, LobbyInstanceElement.styles);
+      .template(GamerInstanceElement.template)
+      .styles(reset.styles, GamerInstanceElement.styles);
   }
 
   get src() {
@@ -75,13 +75,12 @@ export class LobbyInstanceElement extends HTMLElement {
 
   renderSlots(data) {
     const slotMap = {
-      "lobby-title": data.name,
-      "lobby-image": html`<img
-        slot="lobby-image"
-        src="${"https://img.freepik.com/premium-vector/straw-doll-pixel-art-style_475147-1499.jpg"}"
-        alt="${data.imageUrl}"
+      "gamer-title": data.name,
+      "gamer-image": html`<img
+        slot="gamer-image"
+        src="${data.avatar}"
+        alt="${data.avatar}"
       />`,
-      "lobby-status":html`${data.status}`
     };
     this.replaceChildren();
     Object.keys(slotMap).forEach((slotName) => {
