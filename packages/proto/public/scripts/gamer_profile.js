@@ -1,7 +1,20 @@
-import { css, html, shadow, Observer } from "@calpoly/mustang";
+import {
+  css,
+  html,
+  shadow,
+  Observer,
+  Form,
+  define,
+  InputArray,
+} from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class GamerProfileElement extends HTMLElement {
+  static uses = define({
+    "mu-form": Form.Element,
+    "input-array": InputArray.Element,
+  });
+
   static template = html`
     <template>
       <h2>Gamer Profile</h2>
@@ -26,6 +39,21 @@ export class GamerProfileElement extends HTMLElement {
               </p>
             </div>
           </div>
+
+          <mu-form class="edit">
+            <label>
+              <span>Username</span>
+              <input name="name" />
+            </label>
+            <label>
+              <span>Avatar</span>
+              <input type="file" name="_avatar" />
+            </label>
+            <label>
+              <span>Bio</span>
+              <input name="bio" />
+            </label>
+          </mu-form>
         </div>
         <div class="flex-container">
           <p><strong>Games Played Recently:</strong></p>

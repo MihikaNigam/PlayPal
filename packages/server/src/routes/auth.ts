@@ -7,6 +7,7 @@ import express, {
 import jwt from "jsonwebtoken";
 
 import credentials from "../services/credential-svc";
+import gamerModel from "../services/gamer-svc"
 
 const router = express.Router();
 
@@ -37,8 +38,29 @@ router.post("/login", (req: Request, res: Response) => {
     } else {
         credentials
             .verify(username, password)
-            .then((goodUser: string) => generateAccessToken(goodUser))
-            .then((token) => res.status(200).send({ token: token }))
+            .then(async (goodUser: string) => {
+                const token = await generateAccessToken(goodUser);
+
+                return credentials.findByUsername(goodUser).then((cred) => {
+                    console.log(cred);
+                    if (!cred) {
+                        return res.status(404).send("User not found");
+                    }
+
+                    return gamerModel.findByUserId(cred._id).then((gamerProfile) => {
+                        if (!gamerProfile) {
+                            return res.status(404).send("Gamer profile not found");
+                        }
+                        return res.status(200).send({
+                            token: token,
+                            profile: {
+                                username: gamerProfile.name,
+                                gamerId: gamerProfile._id,
+                            }
+                        });
+                    });
+                });
+            })
             .catch((error) => res.status(401).send("Unauthorized"));
     }
 });
@@ -63,20 +85,19 @@ export function authenticateUser(
     req: Request,
     res: Response,
     next: NextFunction
-  ) {
+) {
     const authHeader = req.headers["authorization"];
-    //Getting the 2nd part of the auth header (the token)
     const token = authHeader && authHeader.split(" ")[1];
-  
+
     if (!token) {
-      res.status(401).end();
+        res.status(401).end();
     } else {
-      jwt.verify(token, TOKEN_SECRET, (error, decoded) => {
-        if (decoded) next();
-        else res.status(403).end();
-      });
+        jwt.verify(token, TOKEN_SECRET, (error, decoded) => {
+            if (decoded) next();
+            else res.status(403).end();
+        });
     }
-  }
-  
+}
+
 
 export default router;

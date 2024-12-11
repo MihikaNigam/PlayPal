@@ -104,7 +104,7 @@ function submitLoginForm(event, endpoint, redirect) {
       return res.json();
     })
     .then((payload) => {
-      const { token } = payload;
+      const { token, profile } = payload;
 
       form.dispatchEvent(
         new CustomEvent("auth:message", {

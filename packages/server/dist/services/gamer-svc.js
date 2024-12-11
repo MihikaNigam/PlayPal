@@ -25,6 +25,7 @@ var import_mongoose = require("mongoose");
 const GamerSchema = new import_mongoose.Schema(
   {
     //userId: { type: String, required: true, trim: true, unique: true },
+    userId: { type: import_mongoose.Schema.Types.ObjectId, ref: "Credential", required: true, unique: true },
     name: { type: String, required: true, trim: true },
     games: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Game", default: [] }],
     teams: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Lobby", default: [] }],
@@ -69,4 +70,15 @@ function remove(gamerId) {
     }
   );
 }
-var gamer_svc_default = { index, get, create, update, remove };
+function findByUserId(userId) {
+  return GamerModel.findOne({ userId }).populate("games teams").then((gamer) => {
+    if (!gamer) {
+      throw new Error(`Gamer profile not found for userId: ${userId}`);
+    }
+    return gamer;
+  }).catch((err) => {
+    console.log("Error in findByUserId:", err);
+    throw `Gamer profile not found for userId: ${userId}`;
+  });
+}
+var gamer_svc_default = { index, get, create, update, remove, findByUserId };

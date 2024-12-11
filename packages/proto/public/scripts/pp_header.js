@@ -33,6 +33,9 @@ export class HeaderElement extends HTMLElement {
               </label>
             </li>
             <li class="when-signed-in">
+              <a href="/gamers/672db9498d0b83141da663a5">Your Profile</a>
+            </li>
+            <li class="when-signed-in">
               <a id="signout">Sign Out</a>
             </li>
             <li class="when-signed-out">
@@ -125,9 +128,9 @@ export class HeaderElement extends HTMLElement {
     this._userid = this.shadowRoot.querySelector("#userid");
     this._signout = this.shadowRoot.querySelector("#signout");
 
-    this._signout.addEventListener("click", (event) =>
-      Events.relay(event, "auth:message", ["auth/signout"])
-    );
+    // this._signout.addEventListener("click", (event) => {
+    //   Events.relay(event, "auth:message", ["auth/signout"]);
+    // });
   }
 
   _authObserver = new Observer(this, "playpal:auth");

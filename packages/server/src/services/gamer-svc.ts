@@ -4,6 +4,7 @@ import { Gamer } from "../models/gamer";
 const GamerSchema = new Schema<Gamer>(
   {
     //userId: { type: String, required: true, trim: true, unique: true },
+    userId: { type: Schema.Types.ObjectId, ref: "Credential", required: true, unique: true },
     name: { type: String, required: true, trim: true },
     games: [{ type: Schema.Types.ObjectId, ref: "Game", default: [] }],
     teams: [{ type: Schema.Types.ObjectId, ref: "Lobby", default: [] }],
@@ -60,4 +61,18 @@ function remove(gamerId: String): Promise<void> {
   );
 }
 
-export default { index, get, create, update, remove };
+function findByUserId(userId: Types.ObjectId | string): Promise<Gamer> {
+  return GamerModel.findOne({ userId: userId }).populate("games teams")
+    .then((gamer) => {
+      if (!gamer) {
+        throw new Error(`Gamer profile not found for userId: ${userId}`);
+      }
+      return gamer;
+    })
+    .catch((err) => {
+      console.log("Error in findByUserId:", err);
+      throw `Gamer profile not found for userId: ${userId}`;
+    });
+}
+
+export default { index, get, create, update, remove, findByUserId };

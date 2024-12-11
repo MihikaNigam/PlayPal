@@ -1,4 +1,7 @@
+import { Types } from "mongoose";
+
 export interface Credential {
-    username: string;
-    hashedPassword: string;
-  }
+  _id: Types.ObjectId;
+  username: string;
+  hashedPassword: string;
+}
