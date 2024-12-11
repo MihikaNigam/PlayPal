@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { Game } from "models/game";
 import Games from "../services/game-svc"
+import Lobbies from "../services/lobby-svc"
 
 const router = express.Router();
 
@@ -43,6 +44,17 @@ router.delete("/:gameId", (req: Request, res: Response) => {
 
     Games.remove(gameId)
         .then(() => res.status(204).end())
+        .catch((err) => res.status(404).send(err));
+});
+
+router.get("/get-lobbies/:gameId", (req: Request, res: Response) => {
+    const { gameId } = req.params;
+
+    Games.get(gameId)
+        .then(async (game: Game) => {
+            const lobbies = await Lobbies.findByGame(game);
+            return res.json(lobbies)
+        })
         .catch((err) => res.status(404).send(err));
 });
 

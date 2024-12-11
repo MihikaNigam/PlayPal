@@ -24,12 +24,12 @@ export class GamePage {
       scripts: [
         `import { define, Auth } from "@calpoly/mustang";
          import { GameInstanceElement } from "/scripts/game_instance.js";
-         import { LobbyInstanceElement } from "/scripts/lobby_instance.js";
+         import { LobbyListInstanceElement } from "/scripts/lobbylist_instance.js";
 
          define({
            "game-instance": GameInstanceElement,
            "mu-auth": Auth.Provider,
-           "lobby-instance": LobbyInstanceElement,
+           "lobbylist-instance": LobbyListInstanceElement,
          });`
       ]
     });
@@ -78,16 +78,10 @@ export class GamePage {
           </div>
           <div class="flex-container">
               <h3>Active Lobbies</h3>
-              <div class="lobby-list">
-                <a href="/lobbies/672dc18719a2f499b5095584">
-                  <section class ="card">
-                    <lobby-instance src="/api/lobbies/672dc18719a2f499b5095584"></lobby-instance>
-                    <button/>Join<button/>
-                  </section>
-                </a>
-              <div/>
+                <lobbylist-instance src= "/api/games/get-lobbies/${gameId}"><lobbylist-instance/>
           </div>
         </section>
+         <button>CREATE</button>
       </mu-auth>
     `;
   }
