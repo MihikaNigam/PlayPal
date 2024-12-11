@@ -3,8 +3,7 @@ import reset from "./styles/reset.css.js";
 import headings from "./styles/headings.css.js";
 
 export class LoginForm extends HTMLElement {
-
-    static template = html`<template>
+  static template = html`<template>
     <form onsubmit="false;">
       <slot name="title">
         <h3>Sign in with Username and Password</h3>
@@ -29,10 +28,11 @@ export class LoginForm extends HTMLElement {
 
   static styles = css`
     form {
-      display: grid;
-      grid-column: 1/-1;
-      grid-template-columns: subgrid;
-      gap: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 425px;
+      gap: 10px;
     }
 
     label {
@@ -56,6 +56,11 @@ export class LoginForm extends HTMLElement {
     button[type="submit"] {
       grid-column: 2 / -2;
       align-self: center;
+      padding: 7px;
+      background-color: var(--color-background-header);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
     }
   `;
 
@@ -86,7 +91,7 @@ function submitLoginForm(event, endpoint, redirect) {
   const data = new FormData(form);
   const method = "POST";
   const headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   };
   const body = JSON.stringify(Object.fromEntries(data));
 
@@ -105,7 +110,7 @@ function submitLoginForm(event, endpoint, redirect) {
         new CustomEvent("auth:message", {
           bubbles: true,
           composed: true,
-          detail: ["auth/signin", { token, redirect }]
+          detail: ["auth/signin", { token, redirect }],
         })
       );
     })

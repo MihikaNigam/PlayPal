@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
 
-import { GamePage, GamerPage, LoginPage } from "./pages/index";
+import { GamePage, GamerPage, LoginPage, LobbyPage } from "./pages/index";
 
 import Games from "./services/game-svc";
 import Gamers from "./services/gamer-svc";
@@ -83,7 +83,7 @@ app.get("/register", (req: Request, res: Response) => {
   res.set("Content-Type", "text/html").send(page.render());
 });
 
-/*
+
 app.get(
   "/lobbies/:teamid",
   (req: Request, res: Response) => {
@@ -100,4 +100,3 @@ app.get(
     });
   }
 );
-*/

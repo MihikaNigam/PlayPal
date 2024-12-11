@@ -2,10 +2,10 @@ import { css, html } from "@calpoly/mustang/server";
 import renderPage from "./renderPage";
 
 export class LoginPage {
-    render() {
-        return renderPage({
-            scripts: [
-                `
+  render() {
+    return renderPage({
+      scripts: [
+        `
           import { define, Auth } from "@calpoly/mustang";
           import { LoginForm } from "/scripts/login_form.js";
   
@@ -14,22 +14,18 @@ export class LoginPage {
             "login-form": LoginForm
           })
           `
-            ],
-            styles: [
-                css`
-                    main.page {
-                        --page-grids: 8;
-                        @media screen and (max-width: 48rem) {
-                            --page-grids: 6;
-                        }
-
-                    }
+      ],
+      styles: [
+        css`
                     article {
                         height: 100vh;
                         display: flex;
                         flex-direction: column;
                     }
-                    login-form,
+                    login-form {
+                      display: flex;
+                      justify-content: center;
+                    },
                     registration-form {
                     grid-area: fm;
                     }
@@ -39,10 +35,11 @@ export class LoginPage {
                     display: block;
                     grid-area: rq;
                     text-align: center;
+                    margin-top: 20px;
                     }
                 `
-            ],
-            body: html`
+      ],
+      body: html`
             <mu-auth provides="playpal:auth">
               <article>
                 <pp-header></pp-header>
@@ -61,6 +58,6 @@ export class LoginPage {
               </article>
             </mu-auth>
         `
-        });
-    }
+    });
+  }
 }

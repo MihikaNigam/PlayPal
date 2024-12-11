@@ -25,7 +25,7 @@ export class HeaderElement extends HTMLElement {
             Hello,
             <span id="userid"></span>
           </a>
-          <menu>
+          <menu class="custom-menu">
             <li>
               <label class="dark-mode-switch">
                 <input type="checkbox" />
@@ -79,13 +79,20 @@ export class HeaderElement extends HTMLElement {
       content: "gamer";
     }
     menu a {
-      color: var(--color-link);
+      color: white;
       cursor: pointer;
       text-decoration: underline;
     }
     a:has(#userid:empty) ~ menu > .when-signed-in,
     a:has(#userid:not(:empty)) ~ menu > .when-signed-out {
       display: none;
+    }
+
+    .custom-menu {
+      background-color: var(--color-background-header);
+      padding: 0;
+      list-style: none;
+      padding: 10px;
     }
   `;
 

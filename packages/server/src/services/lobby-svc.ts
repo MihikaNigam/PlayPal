@@ -1,16 +1,18 @@
 import { Schema, model } from "mongoose";
 import { Lobby } from "../models/lobby";
+import { Game } from "../models/game"
 import { console } from "inspector";
 
 const LobbySchema = new Schema<Lobby>(
   {
-    name: { type: String, trim: true},
+    name: { type: String, trim: true },
     gameId: { type: Schema.Types.ObjectId, ref: "Game" },
     players: [{ type: Schema.Types.ObjectId, ref: "Gamer" }],
     chatLink: { type: String, trim: true, default: null },
     status: { type: String, enum: ['active', 'inactive', 'full'] },
   },
-  { collection: "pp_lobbies",
+  {
+    collection: "pp_lobbies",
     timestamps: true
 
   }
@@ -23,12 +25,12 @@ function index(): Promise<Lobby[]> {
 }
 
 function get(teamId: String): Promise<Lobby> {
-  return LobbyModel.findById(teamId)//.populate("games")
-    .then((gamer) => {
-      if (!gamer) {
+  return LobbyModel.findById(teamId).populate("players gameId")
+    .then((team) => {
+      if (!team) {
         throw new Error(`${teamId} Not Found`);
       }
-      return gamer;
+      return team;
     })
     .catch((err) => {
       console.log('err in lobby get: ', get)
@@ -61,4 +63,21 @@ function remove(teamId: String): Promise<void> {
   );
 }
 
-export default { index, get, create, update, remove };
+function findByGame(gameId: Game): Promise<Lobby[]> {
+  return LobbyModel.find({ gameId: gameId })
+    .then((games) => {
+      if (!games) {
+        throw new Error(`${gameId} Not Found`);
+      }
+      return games;
+    })
+    .catch((err) => {
+      console.log('err in lobby get: ', get)
+      throw `${gameId} Not Found`;
+    });
+
+}
+
+
+
+export default { index, get, create, update, remove, findByGame };

@@ -26,6 +26,7 @@ var import_mongo = require("./services/mongo");
 var import_pages = require("./pages/index");
 var import_game_svc = __toESM(require("./services/game-svc"));
 var import_gamer_svc = __toESM(require("./services/gamer-svc"));
+var import_lobby_svc = __toESM(require("./services/lobby-svc"));
 var import_games = __toESM(require("./routes/games"));
 var import_gamers = __toESM(require("./routes/gamers"));
 var import_lobbies = __toESM(require("./routes/lobbies"));
@@ -86,3 +87,19 @@ app.get("/register", (req, res) => {
   const page = new import_pages.LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
+app.get(
+  "/lobbies/:teamid",
+  (req, res) => {
+    const { teamid } = req.params;
+    import_lobby_svc.default.get(teamid).then((data) => {
+      if (data) {
+        res.set("Content-Type", "text/html").send(new import_pages.LobbyPage(data).render());
+      } else {
+        res.status(404).send("Lobby not found");
+      }
+    }).catch((err) => {
+      console.error("Error fetching lobby:", err);
+      res.status(500).send("Internal Server Error");
+    });
+  }
+);

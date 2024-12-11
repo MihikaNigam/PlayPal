@@ -33,56 +33,68 @@
   <body>
     <mu-auth provides="playpal:auth">
       <pp-header></pp-header>
-      <section class="grid-container">
-        <div class="flex-container">
-          <div>
-            <h2>Games</h2>
-            <!-- <game-instance>
-            <a slot="game-title" href="game/apex.html">Apex Legends</a>
-            <img
-              slot="game-image"
-              src="https://shared.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg?t=1727104892"
-              alt="Apex Image"
-            />
-            <a slot="game-lobby-link-1" href="teams/lobby.html">LMG Abusers</a>
-            <a slot="game-lobby-link-2" href="teams/lobby.html"
-              >Olympus Enjoyers</a
-            >
-          </game-instance> -->
+      <main class="page">
+        <h3>Trending Games Right Now 🔥</h3>
+        <section class="three-grid-container">
+          <article class="card">
             <a href="games/672db68d8232f52a313ff9f1"
               ><game-instance
                 src="/api/games/672db68d8232f52a313ff9f1"
               ></game-instance
             ></a>
-            <div>
-              <game-instance>
-                <a slot="game-title" href="game/overwatch.html"
-                  >Overwatch Lobbies</a
-                >
-                <img
-                  slot="game-image"
-                  src="https://i.ytimg.com/vi/dZl1yGUetjI/hqdefault.jpg"
-                  alt="Overwatch Image"
-                />
-                >
-              </game-instance>
-            </div>
+          </article>
+          <!-- <div>
+            <game-instance>
+              <a slot="game-title" href="game/overwatch.html"
+                >Overwatch Lobbies</a
+              >
+              <img
+                slot="game-image"
+                src="https://i.ytimg.com/vi/dZl1yGUetjI/hqdefault.jpg"
+                alt="Overwatch Image"
+              />
+              >
+            </game-instance>
+          </div> -->
+          <article class="card">
+            <a href="games/672daf6cfdc12930d0677e8d"
+              ><game-instance
+                src="/api/games/672daf6cfdc12930d0677e8d"
+              ></game-instance
+            ></a>
+          </article>
+          <article class="card">
             <a href="games/672daf34fdc12930d0677e8c">
               <game-instance src="/api/games/672daf34fdc12930d0677e8c">
               </game-instance
             ></a>
-          </div>
-        </div>
-
-        <div class="flex-container">
-          <h2>Gamers</h2>
-          <ul>
-            <li><a href="gamers/672db9498d0b83141da663a5">Person 1</a></li>
-            <li><a href="gamer/672db9498d0b83141da663a5">Person 2</a></li>
-            <li><a href="gamer/profile.html">Person 3</a></li>
-          </ul>
-        </div>
-      </section>
+          </article>
+          <article class="card">
+            <a href="games/6751179e8f17413cc4a73424">
+              <game-instance src="/api/games/6751179e8f17413cc4a73424">
+              </game-instance
+            ></a>
+          </article>
+          <article class="card">
+            <a href="games/675117f88f17413cc4a73426">
+              <game-instance src="/api/games/675117f88f17413cc4a73426">
+              </game-instance
+            ></a>
+          </article>
+          <article class="card">
+            <a href="games/675118468f17413cc4a73428">
+              <game-instance src="/api/games/675118468f17413cc4a73428">
+              </game-instance
+            ></a>
+          </article>
+          <article class="card">
+            <a href="games/675118708f17413cc4a7342a">
+              <game-instance src="/api/games/675118708f17413cc4a7342a">
+              </game-instance
+            ></a>
+          </article>
+        </section>
+      </main>
     </mu-auth>
   </body>
 </html>
