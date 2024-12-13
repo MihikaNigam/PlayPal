@@ -2,24 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,200;0,400;0,700;1,700&family=Merriweather:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
-    <script type="module">
-      import { define, Auth } from "@calpoly/mustang";
-      import { SignupFormElement } from "/src/components/signup-form";
-
-      define({
-        "mu-auth": Auth.Provider,
-        "signup-form": SignupFormElement,
-      });
-    </script>
     <style>
       .page {
         height: 100vh;
@@ -38,12 +33,15 @@
         text-align: center;
       }
     </style>
+    <script type="module" crossorigin src="/assets/login-uyOtY_p8.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/lit-element-ChEvtA_T.js">
+    <link rel="modulepreload" crossorigin href="/assets/property-xm5xGIk0.js">
   </head>
   <body class="page">
     <mu-auth>
-      <h2>New User Registration</h2>
+      <h2>User Login</h2>
       <main class="card">
-        <signup-form>
+        <login-form>
           <label>
             <span>Username:</span>
             <input name="username" autocomplete="off" />
@@ -52,12 +50,12 @@
             <span>Password:</span>
             <input type="password" name="password" />
           </label>
-        </signup-form>
+        </login-form>
       </main>
       <p>
-        Already have an account and want to
-        <a href="./login.html">Log In</a>
-        instead?
+        Or did you want to
+        <a href="./newuser.html">Sign up as a new user</a>
+        ?
       </p>
     </mu-auth>
   </body>

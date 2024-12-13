@@ -11,15 +11,6 @@
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/tokens.css" />
     <link rel="stylesheet" href="/styles/page.css" />
-    <script type="module">
-      import { define, Auth } from "@calpoly/mustang";
-      import { SignupFormElement } from "/src/components/signup-form";
-
-      define({
-        "mu-auth": Auth.Provider,
-        "signup-form": SignupFormElement,
-      });
-    </script>
     <style>
       .page {
         height: 100vh;
@@ -38,6 +29,8 @@
         text-align: center;
       }
     </style>
+    <script type="module" crossorigin src="/assets/signup-BLdeEORu.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/lit-element-ChEvtA_T.js">
   </head>
   <body class="page">
     <mu-auth>
