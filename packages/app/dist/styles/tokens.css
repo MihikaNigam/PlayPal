@@ -1,0 +1,24 @@
+:root {
+  --color-accent: rgb(187, 134, 252);
+  --color-accent-inverted: rgb(159, 244, 227);
+  --color-link: var(--color-accent);
+  --color-link-inverted: var(--color-accent-inverted);
+  --color-text: rgb(224, 224, 224);
+  --color-text-inverted: rgb(255, 255, 255);
+  --color-background-header: var(--color-accent);
+  --color-background-page: rgb(37, 37, 52);
+
+  --font-primary: "Poppins", "Arial", sans-serif;
+
+  --font-size-regular: 16px;
+  --font-size-large: 24px;
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 32px;
+}
+
+body.dark-mode {
+  --color-background-page: rgb(235, 235, 235);
+  --color-text: rgb(18, 18, 18);
+  --color-background-header: var(--color-accent);
+}
