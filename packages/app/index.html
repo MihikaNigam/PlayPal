@@ -12,23 +12,13 @@
       rel="stylesheet"
     />
     <script type="module" src="/src/main"></script>
-    <!-- <script type="module">
-      import { define, Auth} from "@calpoly/mustang";
-      import { HeaderElement } from "/src/components/pp-header";
-
-      define({
-        // "game-instance": GameInstanceElement,
-        "pp-header": HeaderElement,
-        "mu-auth": Auth.Provider,
-      });
-      window.relayEvent = Events.relay;
-      HeaderElement.initializeOnce();
-    </script> -->
   </head>
   <body>
-    <mu-auth provides="playpal:auth" redirect="./login.html">
-      <pp-header></pp-header>
-      <pp-app></pp-app>
-    </mu-auth>
+    <mu-history provides="playpal:history">
+      <mu-auth provides="playpal:auth" redirect="/login.html">
+        <pp-header></pp-header>
+        <mu-switch></mu-switch>
+      </mu-auth>
+    </mu-history>
   </body>
 </html>
