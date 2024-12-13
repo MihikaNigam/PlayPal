@@ -23,6 +23,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
+var import_promises = __toESM(require("node:fs/promises"));
+var import_path = __toESM(require("path"));
 var import_pages = require("./pages/index");
 var import_game_svc = __toESM(require("./services/game-svc"));
 var import_gamer_svc = __toESM(require("./services/gamer-svc"));
@@ -41,6 +43,12 @@ app.use("/api/games", import_auth.authenticateUser, import_games.default);
 app.use("/api/gamers", import_auth.authenticateUser, import_gamers.default);
 app.use("/api/lobbies", import_auth.authenticateUser, import_lobbies.default);
 app.use("/auth", import_auth.default);
+app.use("/app", (req, res) => {
+  const indexHtml = import_path.default.resolve(staticDir, "index.html");
+  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(
+    (html) => res.send(html)
+  );
+});
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

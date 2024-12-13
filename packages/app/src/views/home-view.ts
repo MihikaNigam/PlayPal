@@ -1,13 +1,19 @@
-import { Auth, Observer } from "@calpoly/mustang";
-import {  html, LitElement } from "lit";
+import { Auth, Observer, View } from "@calpoly/mustang";
+import { html } from "lit";
 import { state } from "lit/decorators.js";
 import { Game } from "server/models";
+import { Msg } from "../messages";
+import { Model } from "../model";
 
-export class HomeViewElement extends LitElement {
+export class HomeViewElement extends View<Model, Msg> {
     src = "/api/games";
 
     @state()
     gameIndex = new Array<Game>();
+
+    constructor() {
+        super("playpal:model");
+    }
 
     _authObserver = new Observer<Auth.Model>(
         this,

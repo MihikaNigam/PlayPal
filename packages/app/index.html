@@ -16,8 +16,10 @@
   <body>
     <mu-history provides="playpal:history">
       <mu-auth provides="playpal:auth" redirect="/login.html">
-        <pp-header></pp-header>
-        <mu-switch></mu-switch>
+        <mu-store provides="playpal:model">
+          <pp-header></pp-header>
+          <mu-switch></mu-switch>
+        </mu-auth>
       </mu-auth>
     </mu-history>
   </body>
