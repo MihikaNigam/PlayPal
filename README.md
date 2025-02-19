@@ -1,2 +1,3 @@
 # Playpal
-This is a dynamic web dev project for CSC437.
+
+Typescript web application which is a social media for gamers where you can join lobbies/chat rooms and meet other gamers
